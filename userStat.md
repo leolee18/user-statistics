@@ -150,5 +150,97 @@ if (module.hot) {
 ```
 #10. 开发笔记
 ```
+1、阻止冒泡
+if( ev && ev.stopPropagation ){
+	ev.stopPropagation();
+}else{
+	ev.cancelBubble = true; 
+}
 
+2、浏览器尺寸
+function getCWH(){
+	return {
+		w:document.documentElement.clientWidth || document.body.clientWidth,
+		h:document.documentElement.clientHeight || document.body.clientHeight
+	}
+}
+
+3、元素到浏览器的距离
+function getPoint(mEle){
+    let t = mEle.offsetTop;
+		let l = mEle.offsetLeft;
+    while (mEle = mEle.offsetParent) { 
+      t += mEle.offsetTop;
+			l += mEle.offsetLeft;
+    }
+    return {t,l};
+}
+
+```
+
+#11. 统计
+```
+1、analytics.js收集客户端数据
+优点：
+
+・数据收集灵活，可定制性强
+
+・可以记录缓存、代理服务器访问
+
+・对访问者行动追踪更为准确
+
+缺点：
+
+・用户端的JS设置会影响数据收集
+
+・记录下载和重定向数据比较困难
+
+・会增加网站的JS脚本负荷
+
+2、代码埋点
+代码埋点的优点：使用者控制精准，可以非常精确地选择什么时候发送数据使用者可以比较方便地设置自定义属性、自定义事件，传递比较丰富的数据到服务端。
+代码埋点的缺点：埋点代价比较大，每一个控件的埋点都需要添加相应的代码，不仅工作量大，而且限定了必须是技术人员才能完成；更新代价比较大，每一次更新，都需要更新埋点方案，然后通过各个应用市场进行分发，而且有的用户还不一定更新，这样你就获取不到这批用户数据。
+
+3、IntersectionObserver交叉观察器
+var io = new IntersectionObserver(callback, option);
+接受两个参数：callback是可见性变化时的回调函数，option是配置对象（该参数可选）
+// 开始观察
+io.observe(document.getElementById('example'));
+// 停止观察
+io.unobserve(element);
+// 关闭观察器
+io.disconnect();
+```
+
+#12. 小程序
+```
+小程序启动加载性能
+    控制代码包的大小
+    分包加载
+    首屏体验（预请求，利用缓存，避免白屏，及时反馈
+小程序渲染性能
+    避免不当的使用setData
+    合理利用事件通信
+    避免不当的使用onPageScroll
+    优化视图节点
+    使用自定义组件
+
+列表的局部更新
+this.setData({
+    list[index] = newList[index]
+})
+let Length = this.data.categoryShopsList.length;
+that.setData({
+    ['categoryShopsList[' + Length + ']']: res.data.data.list,
+})
+setData里面的key支持数据路径的写法
+this.setData({
+    'array[0].text':value
+})
+统计渲染时长
+let startTime = Date.now()
+this.setData(data, () => {
+    let endTime = Data.now()
+    console.log(endTime - startTime, '渲染时长')
+})
 ```

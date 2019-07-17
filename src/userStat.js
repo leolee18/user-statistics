@@ -1,4 +1,3 @@
-console.log('user');
 var useObj = null;
 
 var sendMsg = (obj,mType) => {
@@ -61,6 +60,16 @@ window.onload = () => {
   }
 	document.onclick = useClick;
 	sendMsg(useObj,'load');
+}
+
+window.onhashchange = ()=>{
+	var pageName = window.location.href;
+	var mSend = {
+		rand:useObj.rand,
+		pageName: pageName,
+		hashTime: new Date().getTime()
+	};
+	sendMsg(mSend,'hashchange');
 }
 
 window.onbeforeunload = function () {
